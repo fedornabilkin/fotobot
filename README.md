@@ -1,0 +1,3 @@
+# fotobot
+
+pip install pytelegrambotapi
