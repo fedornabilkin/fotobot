@@ -1,9 +1,14 @@
 import telebot
 from telebot import types
 import os
+from dotenv import load_dotenv
 
-TB_TOKEN = ''
-IMG_FOLDER = 'img/'
+dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
+if os.path.exists(dotenv_path):
+    load_dotenv(dotenv_path)
+
+TB_TOKEN = os.getenv('TB_TOKEN')
+IMG_FOLDER = os.getenv('IMG_FOLDER')
 
 bot = telebot.TeleBot(TB_TOKEN)
 
