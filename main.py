@@ -8,25 +8,35 @@ if os.path.exists(dotenv_path):
     load_dotenv(dotenv_path)
 
 TB_TOKEN = os.getenv('TB_TOKEN')
+TB_RECIPIENT = os.getenv('TB_RECIPIENT')
 IMG_FOLDER = os.getenv('IMG_FOLDER')
+IMG_OLD_FOLDER = os.getenv('IMG_OLD_FOLDER')
 
 bot = telebot.TeleBot(TB_TOKEN)
-
 
 def my_scan():
     photos = get_photos()
     if photos != []:
         for photo in photos:
+            if os.path.isdir(IMG_FOLDER + photo):
+                continue
             file = open(IMG_FOLDER + photo, 'rb')
-            bot.send_photo(364484915, file)
+            bot.send_photo(TB_RECIPIENT, file)
             file.close()
-            os.remove(IMG_FOLDER + photo)
+            copy(IMG_FOLDER + photo, IMG_OLD_FOLDER + photo)
 
 
 def get_photos():
     return os.listdir(IMG_FOLDER)
 
 
+def copy(source, dest):
+    file = open(source, 'rb')
+    new_file = open(dest, 'w')
+    new_file.write(str(file.read()))
+    file.close()
+    new_file.close()
+    os.remove(source)
+
 if __name__ == '__main__':
     my_scan()
-    # get_text_messages('a')
