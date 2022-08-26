@@ -1,5 +1,6 @@
 import telebot
 from telebot import types
+import shutil
 import os
 from dotenv import load_dotenv
 
@@ -31,11 +32,7 @@ def get_photos():
 
 
 def copy(source, dest):
-    file = open(source, 'rb')
-    new_file = open(dest, 'w')
-    new_file.write(str(file.read()))
-    file.close()
-    new_file.close()
+    shutil.copyfile(source, dest)
     os.remove(source)
 
 if __name__ == '__main__':
